@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'login.dart';
 
 void main() => runApp(const MyApp());
 
@@ -28,7 +29,8 @@ class MyHomePageWidget extends StatefulWidget {
 
 class _MyHomePageWidgetState extends State<MyHomePageWidget> {
   int _selectedIndex = 0;
-  static const TextStyle optionStyle = TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  static const TextStyle optionStyle =
+      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static final List<Widget> _widgetOptions = <Widget>[
     Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -39,25 +41,22 @@ class _MyHomePageWidgetState extends State<MyHomePageWidget> {
         Container(
           margin: const EdgeInsets.all(15.0),
           padding: const EdgeInsets.all(20.0),
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.redAccent)
-          ),
+          decoration:
+              BoxDecoration(border: Border.all(color: Colors.redAccent)),
           child: const Center(child: Text('Mobil Kecil')),
         ),
         Container(
           margin: const EdgeInsets.all(15.0),
           padding: const EdgeInsets.all(20.0),
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.redAccent)
-          ),
+          decoration:
+              BoxDecoration(border: Border.all(color: Colors.redAccent)),
           child: const Center(child: Text('Mobil Besar')),
         ),
         Container(
           margin: const EdgeInsets.all(15.0),
           padding: const EdgeInsets.all(20.0),
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.redAccent)
-          ),
+          decoration:
+              BoxDecoration(border: Border.all(color: Colors.redAccent)),
           child: const Center(child: Text('Minibus')),
         ),
       ],

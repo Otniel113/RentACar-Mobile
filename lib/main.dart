@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rent_a_car/views/regist.dart';
 import 'views/login.dart';
 import 'views/home.dart';
 
@@ -16,6 +17,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => const LoginPage(logintitle: "Login Page"),
+        '/regist': (context) => const RegistPage(),
         '/home': (context) => const HomePage(),
       },
     );

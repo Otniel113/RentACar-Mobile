@@ -1,25 +1,39 @@
 import 'package:flutter/material.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key, required this.logintitle}) : super(key: key);
-  final String logintitle;
+void main() => runApp(const MyApp());
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  static const String _Registtitle = 'Regist Page';
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: _Registtitle,
+      home: Scaffold(
+        appBar: AppBar(
+            backgroundColor: Colors.red[900], title: const Text(_Registtitle)),
+        body: const RegistPage(),
+      ),
+    );
+  }
 }
 
-class _LoginPageState extends State<LoginPage> {
+class RegistPage extends StatefulWidget {
+  const RegistPage({Key? key}) : super(key: key);
+
+  @override
+  State<RegistPage> createState() => _RegistPageState();
+}
+
+class _RegistPageState extends State<RegistPage> {
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.red[900],
-        title: Text(widget.logintitle),
-        centerTitle: true,
-      ),
       body: Padding(
         padding: const EdgeInsets.all(10),
         child: ListView(
@@ -38,7 +52,7 @@ class _LoginPageState extends State<LoginPage> {
                 alignment: Alignment.center,
                 padding: const EdgeInsets.all(10),
                 child: const Text(
-                  'Sign in',
+                  'Sign up',
                   style: TextStyle(fontSize: 20),
                 )),
             Container(
@@ -48,6 +62,16 @@ class _LoginPageState extends State<LoginPage> {
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'User Name',
+                ),
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.all(10),
+              child: TextField(
+                controller: nameController,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Email',
                 ),
               ),
             ),
@@ -62,46 +86,20 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
             ),
-            TextButton(
-              onPressed: () {
-                //forgot password screen
-              },
-              child: const Text(
-                'Forgot Password',
-              ),
-            ),
             Container(
                 height: 50,
-                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                 child: ElevatedButton(
-                  child: const Text('Login'),
+                  child: const Text('Registrasi'),
                   onPressed: () {
                     print(nameController.text);
                     print(passwordController.text);
-                    Navigator.pushNamed(context, '/home');
+                    Navigator.pushNamed(context, '/');
                   },
                   style: ElevatedButton.styleFrom(
                     primary: Colors.red[900],
                   ),
                 )),
-            Row(
-              children: <Widget>[
-                const Text('Does not have account?'),
-                TextButton(
-                  child: const Text(
-                    'Sign up',
-                    style: TextStyle(fontSize: 20),
-                  ),
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/regist');
-                  },
-                  style: TextButton.styleFrom(
-                    primary: Colors.red[900],
-                  ),
-                )
-              ],
-              mainAxisAlignment: MainAxisAlignment.center,
-            ),
           ],
         ),
       ),

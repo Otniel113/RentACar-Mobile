@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'product/product.dart';
 
 class NavbarHome extends StatefulWidget {
   const NavbarHome({Key? key}) : super(key: key);
@@ -8,41 +9,13 @@ class NavbarHome extends StatefulWidget {
 }
 
 class _NavbarHomeState extends State<NavbarHome> {
-  Future <void> seeAlert(judul) async{
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(judul),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text(judul + ' is clicked'),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('OK'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
-        Container(
-          child: Text('Pilih jenis Kendaraan'),
-        ),
+        const Text('Pilih jenis Kendaraan'),
         InkWell(
           child: Container(
             margin: const EdgeInsets.all(15.0),
@@ -52,7 +25,10 @@ class _NavbarHomeState extends State<NavbarHome> {
             child: const Center(child: Text('Mobil Kecil')),
           ),
           onTap: (){
-            seeAlert('Mobil Kecil');
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const ProductPage(jenisKendaraan: 'Mobil Kecil')),
+            );
           },
         ),
         InkWell(
@@ -64,7 +40,10 @@ class _NavbarHomeState extends State<NavbarHome> {
             child: const Center(child: Text('Mobil Besar')),
           ),
           onTap: (){
-            seeAlert('Mobil Besar');
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const ProductPage(jenisKendaraan: 'Mobil Besar')),
+            );
           },
         ),
         InkWell(
@@ -76,7 +55,10 @@ class _NavbarHomeState extends State<NavbarHome> {
             child: const Center(child: Text('Minibus')),
           ),
           onTap: (){
-            seeAlert('Minibus');
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const ProductPage(jenisKendaraan: 'Minibus')),
+            );
           },
         ),
       ],

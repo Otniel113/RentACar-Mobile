@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'navbar_booking.dart';
-import 'navbar_home.dart';
-import 'navbar_profile.dart';
+import 'bottomNavBar/navbar_booking.dart';
+import 'bottomNavBar/navbar_home.dart';
+import 'bottomNavBar/navbar_profile.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -12,6 +12,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
+  String homeTitle = "Home Page";
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static final List<Widget> _widgetOptions = <Widget>[
@@ -24,6 +25,13 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       _selectedIndex = index;
     });
+    if (_selectedIndex == 1){
+      homeTitle = "Booking Page";
+    }else if (_selectedIndex == 2){
+      homeTitle = "Profile Page";
+    }else{
+      homeTitle = "Home Page";
+    }
   }
 
   @override
@@ -31,7 +39,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.red[900],
-        title: const Text('Home Page'),
+        title: Text(homeTitle),
         centerTitle: true,
       ),
       body: Center(

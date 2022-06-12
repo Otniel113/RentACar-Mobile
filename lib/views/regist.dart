@@ -29,6 +29,7 @@ class RegistPage extends StatefulWidget {
 
 class _RegistPageState extends State<RegistPage> {
   TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
   @override
@@ -68,7 +69,7 @@ class _RegistPageState extends State<RegistPage> {
             Container(
               padding: const EdgeInsets.all(10),
               child: TextField(
-                controller: nameController,
+                controller: emailController,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'Email',

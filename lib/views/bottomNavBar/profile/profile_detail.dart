@@ -12,6 +12,33 @@ class _ProfilePageState extends State<ProfilePage> {
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
+Future <void> seeAlert() async{
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Berhasil'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: const <Widget>[
+                Text('Profile telah diperbarui'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,6 +80,17 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ),
             Container(
+              padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+              child: TextFormField(
+                obscureText: true,
+                controller: passwordController,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Re-Password',
+                ),
+              ),
+            ),
+            Container(
                 height: 50,
                 padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                 child: ElevatedButton(
@@ -60,7 +98,8 @@ class _ProfilePageState extends State<ProfilePage> {
                   onPressed: () {
                     print(nameController.text);
                     print(passwordController.text);
-                    Navigator.pushNamed(context, '/home');
+                    seeAlert();
+                    // Navigator.pushNamed(context, '/home');
                   },
                   style: ElevatedButton.styleFrom(
                     primary: Colors.red[900],

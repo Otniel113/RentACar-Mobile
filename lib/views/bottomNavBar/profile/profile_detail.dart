@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
 
@@ -10,9 +9,11 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  TextEditingController repasswordController = TextEditingController();
 
-Future <void> seeAlert() async{
+  Future<void> seeAlert() async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false,
@@ -42,26 +43,25 @@ Future <void> seeAlert() async{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-            backgroundColor: Colors.red[900], title: const Text('Edit Profile')),
+      appBar: AppBar(
+          backgroundColor: Colors.red[900], title: const Text('Edit Profile')),
       body: Padding(
         padding: const EdgeInsets.all(10),
         child: ListView(
           children: <Widget>[
+            const Icon(Icons.person,size: 150 ,),
             Container(
               padding: const EdgeInsets.all(10),
               child: TextFormField(
                 controller: nameController,
                 decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Username'
-                ),
+                    border: OutlineInputBorder(), labelText: 'Username'),
               ),
             ),
             Container(
               padding: const EdgeInsets.all(10),
               child: TextFormField(
-                controller: nameController,
+                controller: emailController,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'Email',
@@ -83,7 +83,7 @@ Future <void> seeAlert() async{
               padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
               child: TextFormField(
                 obscureText: true,
-                controller: passwordController,
+                controller: repasswordController,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'Re-Password',

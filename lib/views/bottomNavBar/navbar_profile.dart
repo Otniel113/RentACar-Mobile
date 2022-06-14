@@ -16,6 +16,7 @@ class _NavbarProfileState extends State<NavbarProfile> {
       padding: const EdgeInsets.all(10),
       child: ListView(
         children: <Widget>[
+          const Icon(Icons.person,size: 150 ,),
           Container(
             padding: const EdgeInsets.all(10),
             child: TextField(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+
 class ProductDetailPage extends StatefulWidget {
   const ProductDetailPage({Key? key, required this.detailKendaraan}) : super(key: key);
   final String detailKendaraan;
@@ -27,7 +28,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
             TextButton(
               child: const Text('OK'),
               onPressed: () {
-                Navigator.of(context).pop();
+                Navigator.pushNamed(context, '/home');
               },
             ),
           ],

@@ -1,5 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'product_detail.dart';
+import '../../../api/api_mobilkecil.dart';
+import '../../../models/mobilkecil.dart';
+import 'package:http/http.dart' as http;
 
 class ProductPage extends StatefulWidget {
   const ProductPage({Key? key, required this.jenisKendaraan}) : super(key: key);
@@ -9,10 +13,37 @@ class ProductPage extends StatefulWidget {
   State<ProductPage> createState() => _ProductPageState();
 }
 
-class _ProductPageState extends State<ProductPage> {
-  final List<String> indexKendaraan = <String>['1', '2', '3', '4', '5', '6'];
-  final List<String> namaKendaraan = <String>['Toyota', 'Mercedez', 'Honda', 'Audi', 'Suzuki', 'BMW'];
-
+class _ProductPageState extends State<ProductPage>{
+  List<String> indexKendaraan = <String>['1', '2', '3', '4', '5', '6'];
+  Future<List<MobilKecil>> mobilkecil = listMobilKecil();
+  
+  Widget getWidget(int index){
+    if (widget.jenisKendaraan == 'Mobil Kecil'){
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children:[
+          const Icon(Icons.directions_car, size:100),
+          Text(widget.jenisKendaraan + " " + indexKendaraan[index]),
+        ],
+      );
+    }else if (widget.jenisKendaraan == 'Mobil Besar'){
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Icon(CupertinoIcons.car_detailed, size:100),
+          Text(widget.jenisKendaraan + " " + indexKendaraan[index]),
+        ],
+      );
+    }else{
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Icon(Icons.directions_bus, size:100),
+          Text(widget.jenisKendaraan + " " + indexKendaraan[index]),
+        ],
+      );
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,9 +66,10 @@ class _ProductPageState extends State<ProductPage> {
               child: Container(
                 alignment: Alignment.center,
                 padding: const EdgeInsets.all(8),
-                child: Text(widget.jenisKendaraan + " " + indexKendaraan[index]),
+                // child: Text(widget.jenisKendaraan + " " + indexKendaraan[index]),
+                child: getWidget(index),
                 decoration: BoxDecoration(
-                    color: Colors.red[200],
+                    border: Border.all(color: Colors.redAccent),
                     borderRadius: BorderRadius.circular(15)),
               ),
               onTap: (){

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'product/product.dart';
+import 'home/api_mobilkecil.dart';
+import 'home/api_mobilbesar.dart';
+import 'home/api_minibus.dart';
 
 class NavbarHome extends StatelessWidget{
   const NavbarHome({Key? key}) : super(key: key);
@@ -21,7 +23,7 @@ class NavbarHome extends StatelessWidget{
           onTap: (){
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const ProductPage(jenisKendaraan: 'Mobil Kecil')),
+              MaterialPageRoute(builder: (context) => const APIMobilKecil(jenisKendaraan: "Mobil Kecil")),
             );
           },
         ),
@@ -36,7 +38,7 @@ class NavbarHome extends StatelessWidget{
           onTap: (){
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const ProductPage(jenisKendaraan: 'Mobil Besar')),
+              MaterialPageRoute(builder: (context) => const APIMobilBesar(jenisKendaraan: "Mobil Besar")),
             );
           },
         ),
@@ -51,7 +53,7 @@ class NavbarHome extends StatelessWidget{
           onTap: (){
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const ProductPage(jenisKendaraan: 'Minibus')),
+              MaterialPageRoute(builder: (context) =>const APIMinibus(jenisKendaraan: "Minibus")),
             );
           },
         ),

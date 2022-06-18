@@ -1,14 +1,8 @@
 import 'package:flutter/material.dart';
 import 'product/product.dart';
 
-class NavbarHome extends StatefulWidget {
+class NavbarHome extends StatelessWidget{
   const NavbarHome({Key? key}) : super(key: key);
-
-  @override
-  State<NavbarHome> createState() => _NavbarHomeState();
-}
-
-class _NavbarHomeState extends State<NavbarHome> {
 
   @override
   Widget build(BuildContext context) {

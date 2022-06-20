@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:bcrypt/bcrypt.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key, required this.logintitle}) : super(key: key);
@@ -62,14 +63,6 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
             ),
-            TextButton(
-              onPressed: () {
-                //forgot password screen
-              },
-              child: const Text(
-                'Forgot Password',
-              ),
-            ),
             Container(
                 height: 50,
                 padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
@@ -108,3 +101,5 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
+
+

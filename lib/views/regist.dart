@@ -1,4 +1,23 @@
+import 'dart:async';
+import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import '../../../models/member.dart';
+import '../../../models/mobilbesar.dart';
+import 'package:bcrypt/bcrypt.dart';
+
+// Future<List<Member>> fetchMobilBesar(http.Client client) async {
+// final response = await client
+//     .get(Uri.parse('http://localhost:8000/api/product/mobilbesar'));
+// return await compute(parseRegist, response.body);
+// }
+
+// List<Member> parseRegist(String responseBody) {
+//   final parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();
+
+//   return parsed.map<MobilBesar>((json) => MobilBesar.fromJson(json)).toList();
+// }
 
 void main() => runApp(const MyApp());
 
@@ -28,6 +47,7 @@ class RegistPage extends StatefulWidget {
 }
 
 class _RegistPageState extends State<RegistPage> {
+  TextEditingController usernameController = TextEditingController();
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -62,6 +82,16 @@ class _RegistPageState extends State<RegistPage> {
                 controller: nameController,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
+                  labelText: 'Name',
+                ),
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.all(10),
+              child: TextField(
+                controller: usernameController,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
                   labelText: 'User Name',
                 ),
               ),
@@ -94,7 +124,11 @@ class _RegistPageState extends State<RegistPage> {
                   child: const Text('Registrasi'),
                   onPressed: () {
                     print(nameController.text);
+                    print(emailController.text);
+                    print(usernameController.text);
                     print(passwordController.text);
+                    register(nameController.text, emailController.text,
+                        usernameController.text,passwordController.text);
                     Navigator.pushNamed(context, '/');
                   },
                   style: ElevatedButton.styleFrom(
@@ -105,5 +139,41 @@ class _RegistPageState extends State<RegistPage> {
         ),
       ),
     );
+  }
+}
+
+register(String name, email, username,password) async {
+  Map data = {
+    'name': name,
+    'email': email,
+    'username': username,
+    'password': BCrypt.hashpw(password,BCrypt.gensalt()),
+    'created_at': DateTime.now().toString(),
+    'updated_at': DateTime.now().toString(),
+
+    // 'Mobile': contact,
+    // 'Password': pass,
+    // 'RetypePassword': conpass,
+  };
+  print(data);
+
+  String body = json.encode(data);
+  var url = 'http://localhost:8000/api/profile';
+  var response = await http.post(
+    Uri.parse(url),
+    body: body,
+    headers: {
+      "Content-Type": "application/json",
+      "accept": "application/json",
+      "Access-Control-Allow-Origin": "*"
+    },
+  );
+  print(response.body);
+  print(response.statusCode);
+  if (response.statusCode == 200) {
+    //Or put here your next screen using Navigator.push() method
+    print('success');
+  } else {
+    print('error');
   }
 }

@@ -1,12 +1,7 @@
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------
-import 'dart:convert';
-import 'package:bcrypt/bcrypt.dart';
-import 'package:http/http.dart' as http;
-import 'dart:async';
-import 'dart:math';
-import '../../models/profilecek.dart';
 import 'package:flutter/material.dart';
-import 'package:rent_a_car/views/regist.dart';
+import '../api/api_login.dart';
+import '../utils/validator.dart';
 
 class LoginScreenArguments {
   LoginScreenArguments();
@@ -38,22 +33,24 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   String? _cekEmail(String? txt) {
-    if (txt == null || txt.isEmpty) {
-      return "Please Enter You Email";
-    }
-    if (!RegExp(
-            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-        .hasMatch(txt)) {
-      return "Email Not Valid";
-    }
-    return null;
+    // if (txt == null || txt.isEmpty) {
+    //   return "Please Enter You Email";
+    // }
+    // if (!RegExp(
+    //         r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+    //     .hasMatch(txt)) {
+    //   return "Email Not Valid";
+    // }
+    // return null;
+    return cekEmail(txt);
   }
 
   String? _cekPassword(String? txt) {
-    if (txt == null || txt.isEmpty) {
-      return "Please Enter Your Password";
-    }
-    return null;
+    // if (txt == null || txt.isEmpty) {
+    //   return "Please Enter Your Password";
+    // }
+    // return null;
+    return cekPassword(txt);
   }
 
   @override
@@ -233,70 +230,3 @@ class _LoginScreenState extends State<LoginScreen> {
         )));
   }
 }
-
-Future<void> loginUser(String email, String password) async {
-  var response = await http.post(
-    Uri.parse("http://localhost:8000/api/login"),
-    headers: {
-      'Content-Type': 'application/json',
-      "accept": "application/json",
-      "Access-Control-Allow-Origin": "*",
-    },
-    body: jsonEncode({
-      'email': email,
-      "password": password
-    }),
-  );
-  var decoded = jsonDecode(response.body);
-  print(decoded["status_login"]);
-  if (decoded["status_login"] == "Login Berhasil") {
-    // var decoded = jsonDecode(response.body);
-    // var token = decoded["token"];
-    // var id = decoded["user"]["id"];
-
-    // var profile = await SecureProfile.getStorage();
-    // await profile.setLoggedIn(id, token);
-  } else if (decoded["status_login"] == "Login Gagal") {
-    return Future.error("Email atau password salah");
-  } else {
-    return Future.error("Error" + response.statusCode.toString());
-  }
-}
-
-// LoginUser(String email, password) async {
-//   Map data = {
-//     'email': email,
-//     'password': BCrypt.hashpw(password, BCrypt.gensalt()),
-
-//     // 'Mobile': contact,
-//     // 'Password': pass,
-//     // 'RetypePassword': conpass,
-//   };
-//   print(data);
-
-//   String body = json.encode(data);
-//   var url = 'http://localhost:8000/api/profile';
-//   var response = await http.post(
-//     Uri.parse(url),
-//     body: body,
-//     headers: {
-//       "Content-Type": "application/json",
-//       "accept": "application/json",
-//       "Access-Control-Allow-Origin": "*"
-//     },
-//   );
-//   print(response.body);
-//   print(response.statusCode);
-//   if (response.statusCode == 200 || response.statusCode == 201) {
-//     var decoded = jsonDecode(response.body);
-//     var token = decoded["token"];
-//     var id = decoded["user"]["id"];
-
-//     var profile = await SecureProfile.getStorage();
-//     await profile.setLoggedIn(id, token);
-//   } else if (response.statusCode == 400) {
-//     return Future.error("Email atau password salah");
-//   } else {
-//     print(response.statusCode);
-//   }
-// }

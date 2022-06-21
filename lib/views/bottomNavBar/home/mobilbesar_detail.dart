@@ -29,7 +29,7 @@ class _MobilBesarDetailPageState extends State<MobilBesarDetailPage> {
               TextButton(
                 child: const Text('OK'),
                 onPressed: () {
-                  Navigator.pushNamed(context, '/home');
+                  Navigator.pushReplacementNamed(context, '/home');
                 },
               ),
             ],

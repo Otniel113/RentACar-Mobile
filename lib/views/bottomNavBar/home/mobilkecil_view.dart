@@ -1,26 +1,11 @@
-import 'dart:async';
-import 'dart:convert';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import '../../../models/minibus.dart';
+import '../../../models/mobilkecil.dart';
 import 'package:http/http.dart' as http;
-import 'minibus_detail.dart';
+import 'mobilkecil_detail.dart';
+import '../../../api/api_mobilkecil.dart';
 
-Future<List<Minibus>> fetchMinibus(http.Client client) async {
-  final response = await client
-      .get(Uri.parse('http://localhost:8000/api/product/minibus'));
-  return await compute(parseMinibus, response.body);
-}
-
-List<Minibus> parseMinibus(String responseBody) {
-  final parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();
-
-  return parsed.map<Minibus>((json) => Minibus.fromJson(json)).toList();
-}
-
-class APIMinibus extends StatelessWidget {
-  const APIMinibus({Key? key, required this.jenisKendaraan}) : super(key: key);
+class GetMobilKecil extends StatelessWidget {
+  const GetMobilKecil({Key? key, required this.jenisKendaraan}) : super(key: key);
   final String jenisKendaraan;
 
   @override
@@ -31,15 +16,15 @@ class APIMinibus extends StatelessWidget {
         title: Text(jenisKendaraan),
         centerTitle: true,
       ),
-      body: FutureBuilder<List<Minibus>>(
-      future: fetchMinibus(http.Client()),
+      body: FutureBuilder<List<MobilKecil>>(
+      future: fetchMobilKecil(http.Client()),
       builder: (context, snapshot) {
         if (snapshot.hasError){
           return Center(
             child: Text(snapshot.error.toString() + ' has occured!'),
           );
         }else if (snapshot.hasData){
-          return MinibusList(minibus: snapshot.data!);
+          return MobilKecilList(mobilkecil: snapshot.data!);
         }else{
           return const Center(
             child: CircularProgressIndicator(),
@@ -51,9 +36,9 @@ class APIMinibus extends StatelessWidget {
   }
 }
 
-class MinibusList extends StatelessWidget {
-  const MinibusList({Key? key, required this.minibus}) : super(key: key);
-  final List<Minibus> minibus;
+class MobilKecilList extends StatelessWidget {
+  const MobilKecilList({Key? key, required this.mobilkecil}) : super(key: key);
+  final List<MobilKecil> mobilkecil;
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +49,7 @@ class MinibusList extends StatelessWidget {
         mainAxisSpacing: 10,
       ),
       padding: const EdgeInsets.all(20),
-      itemCount: minibus.length,
+      itemCount: mobilkecil.length,
       itemBuilder: (BuildContext context, index) {
         return InkWell(
           child: Container(
@@ -73,10 +58,10 @@ class MinibusList extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children:[
-                Text(minibus[index].nama_mobil),
-                const Icon(Icons.directions_bus, size:100),
-                Text(minibus[index].wisata),
-                Text(minibus[index].ketersediaan),
+                Text(mobilkecil[index].nama_mobil),
+                const Icon(Icons.directions_car, size:100),
+                Text(mobilkecil[index].wisata),
+                Text(mobilkecil[index].ketersediaan),
               ],
             ),
             decoration: BoxDecoration(
@@ -87,7 +72,7 @@ class MinibusList extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => 
-              MinibusDetailPage(detailKendaraan: minibus[index]),
+              MobilKecilDetailPage(detailKendaraan: mobilkecil[index]),
             )
             );
           },

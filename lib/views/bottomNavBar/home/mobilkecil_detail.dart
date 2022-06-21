@@ -28,7 +28,7 @@ class _MobilKecilDetailPageState extends State<MobilKecilDetailPage> {
               TextButton(
                 child: const Text('OK'),
                 onPressed: () {
-                  Navigator.pushNamed(context, '/home');
+                  Navigator.pushReplacementNamed(context, '/home');
                 },
               ),
             ],

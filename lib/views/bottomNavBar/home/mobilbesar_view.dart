@@ -1,27 +1,12 @@
-import 'dart:async';
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../../../models/mobilbesar.dart';
 import 'package:http/http.dart' as http;
 import 'mobilbesar_detail.dart';
+import '../../../api/api_mobilbesar.dart';
 
-Future<List<MobilBesar>> fetchMobilBesar(http.Client client) async {
-  final response = await client
-      .get(Uri.parse('http://localhost:8000/api/product/mobilbesar'));
-  return await compute(parseMobilBesar, response.body);
-}
-
-List<MobilBesar> parseMobilBesar(String responseBody) {
-  final parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();
-
-  return parsed.map<MobilBesar>((json) => MobilBesar.fromJson(json)).toList();
-}
-
-class APIMobilBesar extends StatelessWidget {
-  const APIMobilBesar({Key? key, required this.jenisKendaraan}) : super(key: key);
+class GetMobilBesar extends StatelessWidget {
+  const GetMobilBesar({Key? key, required this.jenisKendaraan}) : super(key: key);
   final String jenisKendaraan;
 
   @override

@@ -128,7 +128,7 @@ class _RegistPageState extends State<RegistPage> {
                     print(usernameController.text);
                     print(passwordController.text);
                     register(nameController.text, emailController.text,
-                        usernameController.text,passwordController.text);
+                        usernameController.text, passwordController.text);
                     Navigator.pushNamed(context, '/');
                   },
                   style: ElevatedButton.styleFrom(
@@ -142,12 +142,12 @@ class _RegistPageState extends State<RegistPage> {
   }
 }
 
-register(String name, email, username,password) async {
+register(String name, email, username, password) async {
   Map data = {
     'name': name,
     'email': email,
     'username': username,
-    'password': BCrypt.hashpw(password,BCrypt.gensalt()),
+    'password': BCrypt.hashpw(password, BCrypt.gensalt()),
     'created_at': DateTime.now().toString(),
     'updated_at': DateTime.now().toString(),
 

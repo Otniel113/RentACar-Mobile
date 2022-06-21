@@ -3,7 +3,7 @@ class Member {
   final String name;
   final String email;
   final String username;
-  //final String password;
+  final String password;
   final String created_at;
   final String updated_at;
 
@@ -12,7 +12,7 @@ class Member {
     required this.name,
     required this.email,
     required this.username,
-    //required this.password,
+    required this.password,
     required this.created_at,
     required this.updated_at,
   });
@@ -23,7 +23,7 @@ class Member {
       name: json['name'],
       email: json['email'],
       username: json['username'],
-      //password: json['password'],
+      password: json['password'],
       created_at: json['created_at'],
       updated_at: json['updated_at'],
     );

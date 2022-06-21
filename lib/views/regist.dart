@@ -28,13 +28,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       title: _Registtitle,
-      home: Scaffold(
-        appBar: AppBar(
-            backgroundColor: Colors.red[900], title: const Text(_Registtitle)),
-        body: const RegistPage(),
-      ),
+      home: RegistPage(),
     );
   }
 }
@@ -55,6 +51,9 @@ class _RegistPageState extends State<RegistPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+            backgroundColor: Colors.red[900], title: const Text('Regist Page')
+            ),
       body: Padding(
         padding: const EdgeInsets.all(10),
         child: ListView(
@@ -147,9 +146,9 @@ register(String name, email, username, password) async {
     'name': name,
     'email': email,
     'username': username,
-    'password': BCrypt.hashpw(password, BCrypt.gensalt()),
-    'created_at': DateTime.now().toString(),
-    'updated_at': DateTime.now().toString(),
+    'password': password,
+    // 'created_at': DateTime.now().toString(),
+    // 'updated_at': DateTime.now().toString(),
 
     // 'Mobile': contact,
     // 'Password': pass,
@@ -158,7 +157,7 @@ register(String name, email, username, password) async {
   print(data);
 
   String body = json.encode(data);
-  var url = 'http://localhost:8000/api/profile';
+  var url = 'http://localhost:8000/api/register';
   var response = await http.post(
     Uri.parse(url),
     body: body,
@@ -170,7 +169,7 @@ register(String name, email, username, password) async {
   );
   print(response.body);
   print(response.statusCode);
-  if (response.statusCode == 200) {
+  if (response.statusCode == 200 || response.statusCode == 201) {
     //Or put here your next screen using Navigator.push() method
     print('success');
   } else {

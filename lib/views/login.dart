@@ -30,7 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
     Navigator.pop(context);
   }
 
-  void ShowSnackBar(BuildContext context, String message) {
+  void _showSnackBar(BuildContext context, String message) {
     final snackbar =
         SnackBar(behavior: SnackBarBehavior.floating, content: Text(message));
 
@@ -72,13 +72,15 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ));
           await loginUser(_emailController.text, _passwordController.text);
-          ShowSnackBar(context, "Login Success");
+          _showSnackBar(context, "Login Success");
           Navigator.pop(context);
           Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
         } catch (err) {
           Navigator.pop(context);
-          ShowSnackBar(context, "$err");
+          _showSnackBar(context, "$err");
         }
+      }else{
+        print("Tidak valid");
       }
     }
 
@@ -129,7 +131,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         controller: _emailController,
                                         validator: _cekEmail,
                                         decoration: InputDecoration(
-                                          enabledBorder: OutlineInputBorder(
+                                          enabledBorder: const OutlineInputBorder(
                                             borderSide: BorderSide(
                                                 color: Colors.red, width: 1.0),
                                           ),
@@ -164,7 +166,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         validator: _cekPassword,
                                         obscureText: true,
                                         decoration: InputDecoration(
-                                            enabledBorder: OutlineInputBorder(
+                                            enabledBorder: const OutlineInputBorder(
                                               borderSide: BorderSide(
                                                   color: Colors.red,
                                                   width: 1.0),
@@ -212,11 +214,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               const Text("Does not have account ? "),
                               InkWell(
                                   onTap: () =>
-                                      Navigator.push(context, MaterialPageRoute(
-                                        builder: (context) {
-                                          return RegistPage();
-                                        },
-                                      )),
+                                      Navigator.pushNamed(context, '/regist'),
                                   child: const Text(
                                     "Sign up !",
                                     style:
@@ -238,31 +236,30 @@ class _LoginScreenState extends State<LoginScreen> {
 
 Future<void> loginUser(String email, String password) async {
   var response = await http.post(
-    Uri.parse("http://localhost:8000/api/profile"),
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
+    Uri.parse("http://localhost:8000/api/login"),
+    headers: {
+      'Content-Type': 'application/json',
       "accept": "application/json",
       "Access-Control-Allow-Origin": "*",
     },
-    body: jsonEncode(<String, String>{
+    body: jsonEncode({
       'email': email,
-      "password": BCrypt.hashpw(password, BCrypt.gensalt())
+      "password": password
     }),
   );
-  // Map parsed = json.decode(response.body);
-  // print(parsed);
+  var decoded = jsonDecode(response.body);
+  print(decoded["status_login"]);
+  if (decoded["status_login"] == "Login Berhasil") {
+    // var decoded = jsonDecode(response.body);
+    // var token = decoded["token"];
+    // var id = decoded["user"]["id"];
 
-  if (response.statusCode == 200 || response.statusCode == 201) {
-    var decoded = jsonDecode(response.body);
-    var token = decoded["token"];
-    var id = decoded["user"]["id"];
-
-    var profile = await SecureProfile.getStorage();
-    await profile.setLoggedIn(id, token);
-  } else if (response.statusCode == 400) {
+    // var profile = await SecureProfile.getStorage();
+    // await profile.setLoggedIn(id, token);
+  } else if (decoded["status_login"] == "Login Gagal") {
     return Future.error("Email atau password salah");
   } else {
-    print(response.statusCode);
+    return Future.error("Error" + response.statusCode.toString());
   }
 }
 

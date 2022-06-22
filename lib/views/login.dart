@@ -33,23 +33,10 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   String? _cekEmail(String? txt) {
-    // if (txt == null || txt.isEmpty) {
-    //   return "Please Enter You Email";
-    // }
-    // if (!RegExp(
-    //         r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-    //     .hasMatch(txt)) {
-    //   return "Email Not Valid";
-    // }
-    // return null;
     return cekEmail(txt);
   }
 
   String? _cekPassword(String? txt) {
-    // if (txt == null || txt.isEmpty) {
-    //   return "Please Enter Your Password";
-    // }
-    // return null;
     return cekPassword(txt);
   }
 
@@ -76,11 +63,8 @@ class _LoginScreenState extends State<LoginScreen> {
           Navigator.pop(context);
           _showSnackBar(context, "$err");
         }
-      }else{
-        print("Tidak valid");
       }
     }
-
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.red[900],

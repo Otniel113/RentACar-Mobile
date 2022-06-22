@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'dart:async';
+import '../session/session_manager.dart';
 
 Future<void> loginUser(String email, String password) async {
   var response = await http.post(
@@ -16,14 +17,12 @@ Future<void> loginUser(String email, String password) async {
     }),
   );
   var decoded = jsonDecode(response.body);
-  print(decoded["status_login"]);
+  // print(decoded["status_login"]);
   if (decoded["status_login"] == "Login Berhasil") {
-    // var decoded = jsonDecode(response.body);
-    // var token = decoded["token"];
-    // var id = decoded["user"]["id"];
+    SessionManager prefs =  SessionManager();
+    prefs.setLoginStatus(true);
+    prefs.setMemberID(decoded['member_id'].toString());
 
-    // var profile = await SecureProfile.getStorage();
-    // await profile.setLoggedIn(id, token);
   } else if (decoded["status_login"] == "Login Gagal") {
     return Future.error("Email atau password salah");
   } else {

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:rent_a_car/api/api_profile.dart';
+import '../../../session/session_manager.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+  const ProfilePage({Key? key, required this.id_member}) : super(key: key);
+  final String id_member;
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -10,10 +13,10 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
+  TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  TextEditingController repasswordController = TextEditingController();
 
-  Future<void> seeAlert() async {
+  Future<void> alertSave() async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false,
@@ -31,8 +34,43 @@ class _ProfilePageState extends State<ProfilePage> {
             TextButton(
               child: const Text('OK'),
               onPressed: () {
-                Navigator.of(context).pop();
+                // Navigator.of(context).pop();
+                Navigator.pushReplacementNamed(context, '/home');
               },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> alertHapus(String id) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Konfirmasi'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: const <Widget>[
+                Text('Apakah Anda yakin akan menghapus akun?'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Iya'),
+              onPressed: () {
+                deleteMember(id);
+                Navigator.pushReplacementNamed(context, '/');
+              },
+            ),
+            TextButton(
+              child: const Text('Tidak'),
+              onPressed: (){
+                Navigator.of(context).pop();
+              }
             ),
           ],
         );
@@ -55,7 +93,7 @@ class _ProfilePageState extends State<ProfilePage> {
               child: TextFormField(
                 controller: nameController,
                 decoration: const InputDecoration(
-                    border: OutlineInputBorder(), labelText: 'Username'),
+                    border: OutlineInputBorder(), labelText: 'Nama'),
               ),
             ),
             Container(
@@ -66,6 +104,14 @@ class _ProfilePageState extends State<ProfilePage> {
                   border: OutlineInputBorder(),
                   labelText: 'Email',
                 ),
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.all(10),
+              child: TextFormField(
+                controller: usernameController,
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(), labelText: 'Username'),
               ),
             ),
             Container(
@@ -80,31 +126,32 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ),
             Container(
+              height: 50,
               padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-              child: TextFormField(
-                obscureText: true,
-                controller: repasswordController,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Re-Password',
+              child: ElevatedButton(
+                child: const Text('Save'),
+                onPressed: () {
+                  editMember(widget.id_member, nameController.text, emailController.text, usernameController.text, passwordController.text);
+                  alertSave();
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.orange[400],
                 ),
-              ),
+              )
             ),
             Container(
-                height: 50,
-                padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                child: ElevatedButton(
-                  child: const Text('Save'),
-                  onPressed: () {
-                    print(nameController.text);
-                    print(passwordController.text);
-                    seeAlert();
-                    // Navigator.pushNamed(context, '/home');
-                  },
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.red[900],
-                  ),
-                )),
+            height: 50,
+            padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+            child: ElevatedButton(
+              child: const Text('Hapus'),
+              onPressed: () {
+                alertHapus(widget.id_member);
+              },
+              style: ElevatedButton.styleFrom(
+                primary: Colors.red[900],
+              ),
+            )
+          ),
           ],
         ),
       ),

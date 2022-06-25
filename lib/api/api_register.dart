@@ -14,7 +14,6 @@ register(String name, email, username, password) async {
     // 'Password': pass,
     // 'RetypePassword': conpass,
   };
-  print(data);
 
   String body = json.encode(data);
   var url = 'http://localhost:8000/api/register';
@@ -27,12 +26,4 @@ register(String name, email, username, password) async {
       "Access-Control-Allow-Origin": "*"
     },
   );
-  print(response.body);
-  print(response.statusCode);
-  if (response.statusCode == 200 || response.statusCode == 201) {
-    //Or put here your next screen using Navigator.push() method
-    print('success');
-  } else {
-    print('error');
-  }
 }

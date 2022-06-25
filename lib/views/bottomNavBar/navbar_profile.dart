@@ -1,102 +1,61 @@
 import 'package:flutter/material.dart';
-import 'profile/profile_detail.dart';
 import 'dart:async';
 import '../../session/session_manager.dart';
+import '../../api/api_profile.dart';
+import '../../models/member.dart';
 import '../../api/api_logout.dart';
+import 'profile/profile_data.dart';
 
-class NavbarProfile extends StatefulWidget {
+class NavbarProfile extends StatelessWidget  {
   const NavbarProfile({Key? key}) : super(key: key);
 
-  @override
-  State<NavbarProfile> createState() => _NavbarProfileState();
-}
+  Future<Member> fetchProfile(String id){
+    Future<Member> hasil_profile = getMemberbyID(id);
+    return hasil_profile;
+  }
 
-class _NavbarProfileState extends State<NavbarProfile> {
-  TextEditingController nameController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  
-  printMemberID(){
+  Future<Member> getSession() async{
     SessionManager prefs = SessionManager();
-    Future<String> member_id = prefs.getMemberID();
-    String kembalian ='';
-    member_id.then((data) {
-      print("ID Member Sekarang = "+ data);
-      kembalian = data;
-    },onError: (e) {
-      print( "Error " + e.toString());
-    });
+    String member_id = await prefs.getMemberID();
+    return fetchProfile(member_id);
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(10),
-      child: ListView(
-        children: <Widget>[
-          const Icon(Icons.person,size: 150 ,),
-          Container(
-            padding: const EdgeInsets.all(10),
-            child: TextField(
-              enabled: false,
-              controller: nameController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'James',
+  Widget build(BuildContext context) {    
+    return FutureBuilder<Member>(
+      future: getSession(),
+      builder: (context, snapshot) {
+        if (snapshot.hasError){
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+              Text(snapshot.error.toString() + ' has occured!'),
+              Container(
+                height: 50,
+                padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                child: ElevatedButton(
+                  child: const Text('Logout'),
+                  onPressed: () {
+                    logoutUser();
+                    Navigator.pushReplacementNamed(context, '/');
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.red[900],
+                  ),
+                ),
               ),
-              style:TextStyle(fontWeight: FontWeight.bold)
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.all(10),
-            child: TextField(
-              enabled: false,
-              controller: nameController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'James@gmail.com',
+              ],
               ),
-              style:TextStyle(fontWeight: FontWeight.bold)
-            ),
-          ),
-          // Text(
-          //   doSomething(),
-          // ),
-          Container(
-            height: 50,
-            padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-            child: ElevatedButton(
-              child: const Text('Edit'),
-              onPressed: () {
-                printMemberID();
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          const ProfilePage()),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                primary: Colors.orange[700],
-              ),
-            )
-          ),
-          Container(
-            height: 50,
-            padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-            child: ElevatedButton(
-              child: const Text('Logout'),
-              onPressed: () {
-                printMemberID();
-                logoutUser();
-                Navigator.pushReplacementNamed(context, '/');
-              },
-              style: ElevatedButton.styleFrom(
-                primary: Colors.red[900],
-              ),
-            )
-          ),
-        ],
-      ),
-    );
+          );
+        }else if (snapshot.hasData){
+          return ProfileData(profile_data: snapshot.data!);
+        }else{
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+      },
+      );
   }
 }

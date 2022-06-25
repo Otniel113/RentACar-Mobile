@@ -1,16 +1,14 @@
-# rent_a_car
+# RentACar-Mobile
 
-A new Flutter project.
+Rent A Car adalah aplikasi booking mobil untuk wisata dengan Web merupakan tempat untuk administrasi (Admin) yang mengatur ketersediaan mobil, sedangkan pada Mobile merupakan tempat untuk melakukan pemesanan (oleh Member).
 
-## Getting Started
+## Kontribusi
 
-This project is a starting point for a Flutter application.
+Pembagian per modul berdasarkan menu yang ada pada BottomNavBar dengan:
+a.	Otniel Abiezer = Home
+b.	Gilang Muhamad Rizky = Login – Register – Logout
+c.	Winico Fazry = Profile
+d.	Aulia Arief = Booking
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Versi Pengumpulan
+Bagian commit yang dikumpulkan adalah commit ke-21 dengan judul "PENGUMPULAN".

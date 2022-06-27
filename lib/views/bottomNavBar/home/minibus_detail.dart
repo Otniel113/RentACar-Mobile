@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../models/minibus.dart';
+import '../../../api/api_booking.dart';
 
 class MinibusDetailPage extends StatefulWidget {
   const MinibusDetailPage({Key? key, required this.detailKendaraan}) : super(key: key);
@@ -86,6 +87,7 @@ class _MinibusDetailPageState extends State<MinibusDetailPage> {
               child: const Text('Booking'), 
               onPressed: (){
                 if (widget.detailKendaraan.ketersediaan == "Tersedia"){
+                  makeBooking(widget.detailKendaraan.id, widget.detailKendaraan.nama_mobil, "Minibus", widget.detailKendaraan.wisata);
                   tersediaAlert();
                 }else{
                   tidaktersediaAlert();

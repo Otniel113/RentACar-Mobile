@@ -1,66 +1,75 @@
 import 'package:flutter/material.dart';
+import '../../models/booking.dart';
+import '../../session/session_manager.dart';
+import '../../api/api_booking.dart';
+import 'package:http/http.dart' as http;
+import 'booking/my_booking_list.dart';
 
-class NavbarBooking extends StatefulWidget {
+Future<String> getSession() async{
+  SessionManager prefs = SessionManager();
+  String member_id = await prefs.getMemberID();
+  return member_id;
+}
+
+class NavbarBooking extends StatelessWidget {
   const NavbarBooking({Key? key}) : super(key: key);
 
   @override
-  State<NavbarBooking> createState() => _NavbarBookingState();
+  Widget build(BuildContext context) {
+    return FutureBuilder<List<Booking>>(
+      future: fetchBooking(http.Client()),
+      builder: (context, snapshot) {
+        if (snapshot.hasError){
+          return Center(
+            child: Text(snapshot.error.toString() + ' has occured!'),
+          );
+        }else if (snapshot.hasData){
+          return MyBooking(booking_list: snapshot.data!);
+        }else{
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+      },
+    );
+  }
 }
 
+class MyBooking extends StatelessWidget {
+  const MyBooking({Key? key, required this.booking_list}) : super(key: key);
+  final List<Booking> booking_list;
 
-class _NavbarBookingState extends State<NavbarBooking> {
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      padding: const EdgeInsets.all(8),
-      itemCount: 1,
-      itemBuilder: (BuildContext context, int index) {
-        return new Container(
-          padding: const EdgeInsets.all(10.0),
-          child: Card(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            const ListTile(
-              leading: Icon(Icons.car_rental_rounded),
-              title: Text('Toyota Avanza'),
-              subtitle: Text('Tangkuban Perahu\nD 1111 AAA'),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                 TextButton(
-      onPressed: () => showDialog<String>(
-        context: context,
-        builder: (BuildContext context) => AlertDialog(
-          title: const Text('Toyota Avanza'),
-          content: const Text(''+
-          'Plat Mobil : D 1111 AAA\n'+
-          'Tujuan : Tangkuban Perahu\n'+
-          'Driver : Garok\n'+
-          'Tgl Pinjam : dd/mm/yy hh/mm/ss\n'),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () => Navigator.pop(context, 'OK'),
-              child: const Text('OK'),
-            ),
-          ],
-        ),
-      ),
-      child: const Text('Detail Booking'),
-    ),
-            
-              
-                
-                const SizedBox(width: 8),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
+    List<Booking> my_booking_list = [];
+
+    return FutureBuilder<String>(
+      future: getSession(),
+      builder: (context, snapshot) {
+        if (snapshot.hasError){
+          return Center(
+            child: Text(snapshot.error.toString() + ' has occured!'),
+          );
+        }else if (snapshot.hasData){
+          for (var i=0; i<booking_list.length; i++){
+            if (booking_list[i].id_member == snapshot.data!){
+              my_booking_list.add(booking_list[i]);
+            }
+          }
+          if (my_booking_list.isNotEmpty){
+            my_booking_list = my_booking_list.reversed.toList();
+            return MyBookingList(my_booking_list: my_booking_list);
+          }else{
+            return const Center(
+              child: Text('Anda belum melakukan pemesanan'),
+            );
+          }
+        }else{
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
       },
-      separatorBuilder: (BuildContext context, int index) => const Divider(),
     );
   }
 }

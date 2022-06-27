@@ -7,12 +7,6 @@ register(String name, email, username, password) async {
     'email': email,
     'username': username,
     'password': password,
-    // 'created_at': DateTime.now().toString(),
-    // 'updated_at': DateTime.now().toString(),
-
-    // 'Mobile': contact,
-    // 'Password': pass,
-    // 'RetypePassword': conpass,
   };
 
   String body = json.encode(data);
